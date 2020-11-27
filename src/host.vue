@@ -2,11 +2,7 @@
 	<div class="uk-container">
 		<div class="uk-margin-small-top uk-text-muted uk-text-right">サイト作成者: <a class="uk-link-muted" href="https://twitter.com/JADENgygo">@JADEN</a></div>
 		<div class="uk-text-lead uk-text-center uk-margin-top">ガチャ告知画像<span class="title-break">ジェネレーター</span></div>
-		<div uk-grid class="uk-grid-small uk-margin-top" v-if="progressDisplayed">
-			<div class="uk-width-1-3@s"></div>
-			<div class="uk-width-1-3@s"><progress class="uk-progress" v-bind:value="progress" max="100"></progress></div>
-			<div class="uk-width-1-3@s"></div>
-		</div>
+		<div class="uk-margin-top" v-if="notificationDisplayed">{{ notification }}</div>
 		<div v-bind:style="contentVisibility">
 			<form class="uk-form-stacked">
 				<div class="uk-form-label uk-margin-top">背景画像</div>
@@ -138,8 +134,8 @@ import UIkit from 'uikit';
 export default {
 	data: function() {
 		return {
-			progressDisplayed: true,
-			progress: 0,
+			notificationDisplayed: false,
+			notification: 'ページの再読み込みをしてください',
 			contentVisibility: {visibility: 'hidden'},
 			previewFixing: false,
 			backgroundImagePath: require('./img/aqua.webp'),
@@ -170,18 +166,11 @@ export default {
 		};
 	},
 	mounted: function() {
-		this.progress = 30;
 		WebFont.load({
 			custom: {
 				families: ['Kosugi Maru'],
-				urls: ['./style.css']
-			},
-			loading: () => {
-				console.log('loading');
-				this.progress = 60;
 			},
 			active:() => {
-				console.log('active');
 				this.progress = 100;
 				this.progressDisplayed = false;
 				document.getElementById('background-image').addEventListener('load', () => {
@@ -191,8 +180,7 @@ export default {
 				this.$set(this.contentVisibility, 'visibility', 'visible');
 			},
 			inactive: () => {
-				console.log('inactive');
-				location.reload();
+				this.notificationDisplayed = true;
 			}
 		});
 	},
