@@ -176,17 +176,11 @@ export default {
 				families: ['Kosugi Maru'],
 			},
 			loading: () => {
+				console.log('loading');
 				this.progress = 60;
 			},
-			fontactive: (a, b) => {
-				console.log(a, b);
-				this.progress = 90;
-			},
-			fontinactive: (a, b) => {
-				console.log('fontinactive');
-				console.log(a, b);
-			},
 			active:() => {
+				console.log('active');
 				this.progress = 100;
 				this.progressDisplayed = false;
 				document.getElementById('background-image').addEventListener('load', () => {
@@ -196,6 +190,7 @@ export default {
 				this.$set(this.contentVisibility, 'visibility', 'visible');
 			},
 			inactive: () => {
+				console.log('inactive');
 				location.reload();
 			}
 		});
