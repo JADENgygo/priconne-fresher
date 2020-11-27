@@ -174,6 +174,7 @@ export default {
 		WebFont.load({
 			custom: {
 				families: ['Kosugi Maru'],
+				urls: ['./style.css']
 			},
 			loading: () => {
 				console.log('loading');
