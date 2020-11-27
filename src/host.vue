@@ -170,6 +170,7 @@ export default {
 			custom: {
 				families: ['Kosugi Maru'],
 			},
+			timeout: 30000,
 			active:() => {
 				document.getElementById('background-image').addEventListener('load', () => {
 					this.drawImage();
