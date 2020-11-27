@@ -182,6 +182,10 @@ export default {
 				console.log(a, b);
 				this.progress = 90;
 			},
+			fontinactive: (a, b) => {
+				console.log('fontinactive');
+				console.log(a, b);
+			},
 			active:() => {
 				this.progress = 100;
 				this.progressDisplayed = false;
@@ -190,6 +194,9 @@ export default {
 				});
 				this.drawImage();
 				this.$set(this.contentVisibility, 'visibility', 'visible');
+			},
+			inactive: () => {
+				console.log('inactive');
 			}
 		});
 	},
