@@ -196,7 +196,7 @@ export default {
 				this.$set(this.contentVisibility, 'visibility', 'visible');
 			},
 			inactive: () => {
-				console.log('inactive');
+				location.reload();
 			}
 		});
 	},
