@@ -19,8 +19,8 @@
 						<li>
 							<a class="uk-accordion-title" href="#">背景画像プリセット</a>
 							<div class="uk-accordion-content">
-								<div uk-grid class="uk-grid-small uk-child-width-1-2 uk-child-width-1-3@s">
-									<div v-for="i in 3">
+								<div uk-grid class="uk-grid-small uk-child-width-1-2 uk-child-width-1-3@s uk-child-width-1-4@m">
+									<div v-for="i in 4">
 										<label>
 											<div class="uk-text-center">
 												<input type="radio" class="uk-radio" v-bind:value="i - 1" v-model="presetImageIndex" v-on:click="clearSelectFile(i - 1)" v-bind:checked="i === 1"> {{ presetNames[i - 1] }}
@@ -141,10 +141,10 @@ export default {
 			notification: 'ページの再読み込みをしてください',
 			contentVisibility: {visibility: 'hidden'},
 			previewFixing: false,
-			backgroundImagePath: require('./img/aqua.webp'),
+			backgroundImagePath: require('./img/aqua0.webp'),
 			presetImageIndex: 0,
-			presetNames: ['アクア', 'めぐみん', 'ダクネス'],
-			presetImagePaths: [require('./img/aqua.webp'),require('./img/megumin.webp'),require('./img/darkness.webp')],
+			presetNames: ['アクア1', 'アクア2', 'めぐみん', 'ダクネス'],
+			presetImagePaths: [require('./img/aqua0.webp'),require('./img/aqua1.webp'), require('./img/megumin.webp'),require('./img/darkness.webp')],
 			starImagePath: require('./img/star.webp'),
 			positionImagePaths: [require('./img/front.webp'), require('./img/center.webp'), require('./img/back.webp')],
 			lootBoxType: '新キャラ登場！',
