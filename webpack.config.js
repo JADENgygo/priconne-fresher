@@ -29,6 +29,7 @@ module.exports = {
 					presets: ['@babel/preset-env']
 				}
 			},
+			/*
 			{
 				test: /\.ttf$/,
 				loader: 'file-loader',
@@ -37,8 +38,9 @@ module.exports = {
 					outputPath: '.',
 				}
 			},
+			*/
 			{
-				test: /\.webp$/,
+				test: /\.webp$|\.ttf$/,
 				loader: 'url-loader',
 				options: {
 					esModule: false
