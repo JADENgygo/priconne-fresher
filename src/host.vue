@@ -133,6 +133,7 @@
 	</div>
 </template>
 <script>
+import WebFont from 'webfontloader';
 import UIkit from 'uikit';
 export default {
 	data: function() {
@@ -170,7 +171,6 @@ export default {
 	},
 	mounted: function() {
 		this.progress = 30;
-		const WebFont = require('webfontloader');
 		WebFont.load({
 			custom: {
 				families: ['Kosugi Maru'],
