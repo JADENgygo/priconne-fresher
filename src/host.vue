@@ -178,7 +178,8 @@ export default {
 			loading: () => {
 				this.progress = 60;
 			},
-			fontloading: () => {
+			fontactive: (a, b) => {
+				console.log(a, b);
 				this.progress = 90;
 			},
 			active:() => {
