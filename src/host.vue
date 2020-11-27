@@ -6,7 +6,7 @@
 			<div uk-alert class="uk-alert-primary">{{ notification }}</div>
 			<button class="uk-button uk-button-default uk-button-small" v-on:click="reloadPage()">再読み込み</button>
 		</div>
-		<div v-bind:style="contentVisibility">
+		<div v-if="test" v-bind:style="contentVisibility">
 			<form class="uk-form-stacked">
 				<div class="uk-form-label uk-margin-top">背景画像</div>
 				<div class="uk-form-controls">
@@ -137,9 +137,11 @@ import UIkit from 'uikit';
 export default {
 	data: function() {
 		return {
+			test: false,
+			flag: false,
 			notificationDisplayed: false,
 			notification: 'ページの再読み込みをしてください',
-			contentVisibility: {visibility: 'hidden'},
+			contentVisibility: {visibility: 'visible'},
 			previewFixing: false,
 			backgroundImagePath: require('./img/aqua0.webp'),
 			presetImageIndex: 0,
@@ -168,22 +170,47 @@ export default {
 			quoteColor: '#0064FF',
 		};
 	},
-	mounted: function() {
+	created: function() {
 		WebFont.load({
 			custom: {
 				families: ['Kosugi Maru'],
 			},
 			active:() => {
+				this.test = true;
+				/*
 				document.getElementById('background-image').addEventListener('load', () => {
 					this.drawImage();
 				});
 				this.drawImage();
 				this.$set(this.contentVisibility, 'visibility', 'visible');
+				*/
 			},
 			inactive: () => {
 				this.notificationDisplayed = true;
 			}
 		});
+	},
+	mounted: function() {
+		console.log('mo');
+		if (this.test) {
+			console.log('mo1');
+			this.flag = true;
+			document.getElementById('background-image').addEventListener('load', () => {
+				this.drawImage();
+			});
+			this.drawImage();
+		}
+	},
+	updated: function() {
+		console.log('be');
+		if (this.test && !this.flag) {
+			console.log('be1');
+			this.flag = true;
+			document.getElementById('background-image').addEventListener('load', () => {
+				this.drawImage();
+			});
+			this.drawImage();
+		}
 	},
 	methods: {
 		reloadPage: function() {
