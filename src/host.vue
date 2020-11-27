@@ -2,125 +2,128 @@
 	<div class="uk-container">
 		<div class="uk-margin-small-top uk-text-muted uk-text-right">サイト作成者: <a class="uk-link-muted" href="https://twitter.com/JADENgygo">@JADEN</a></div>
 		<div class="uk-text-lead uk-text-center uk-margin-top">ガチャ告知画像<span class="title-break">ジェネレーター</span></div>
-		<div class="uk-margin-top" v-if="notificationDisplayed">
-			<div uk-alert class="uk-alert-primary">{{ notification }}</div>
-			<button class="uk-button uk-button-default uk-button-small" v-on:click="reloadPage()">再読み込み</button>
+		<div uk-grid class="uk-grid-small uk-margin-top" v-if="!loaded">
+			<div class="uk-width-1-5"></div>
+			<div class="uk-width-3-5"><progress class="uk-progress" v-bind:value="progress" max="100"></progress></div>
+			<div class="uk-width-1-5"></div>
 		</div>
-		<form class="uk-form-stacked">
-			<div class="uk-form-label uk-margin-top">背景画像</div>
-			<div class="uk-form-controls">
-				<div uk-grid class="uk-grid-small uk-child-width-1-2 uk-child-width-1-3@s">
-					<div><img v-bind:src="backgroundImagePath" id="background-image"></div>
-					<div></div>
-					<div></div>
-				</div>
-				<ul uk-accordion>
-					<li>
-						<a class="uk-accordion-title" href="#">背景画像プリセット</a>
-						<div class="uk-accordion-content">
-							<div uk-grid class="uk-grid-small uk-child-width-1-2 uk-child-width-1-3@s uk-child-width-1-4@m">
-								<div v-for="i in 4">
-									<label>
-										<div class="uk-text-center">
-											<input type="radio" class="uk-radio" v-bind:value="i - 1" v-model="presetImageIndex" v-on:click="clearSelectFile(i - 1)" v-bind:checked="i === 1"> {{ presetNames[i - 1] }}
-										</div>
-										<img v-bind:src="presetImagePaths[i - 1]" v-bind:id="'preset-image' + (i - 1)">
-									</label>
+		<div v-bind:style="contentStyle">
+			<form class="uk-form-stacked">
+				<div class="uk-form-label uk-margin-top">背景画像</div>
+				<div class="uk-form-controls">
+					<div uk-grid class="uk-grid-small uk-child-width-1-2 uk-child-width-1-3@s">
+						<div><img v-bind:src="backgroundImagePath" id="background-image"></div>
+						<div></div>
+						<div></div>
+					</div>
+					<ul uk-accordion>
+						<li>
+							<a class="uk-accordion-title" href="#">背景画像プリセット</a>
+							<div class="uk-accordion-content">
+								<div uk-grid class="uk-grid-small uk-child-width-1-2 uk-child-width-1-3@s uk-child-width-1-4@m">
+									<div v-for="i in 4">
+										<label>
+											<div class="uk-text-center">
+												<input type="radio" class="uk-radio" v-bind:value="i - 1" v-model="presetImageIndex" v-on:click="clearSelectFile(i - 1)" v-bind:checked="i === 1"> {{ presetNames[i - 1] }}
+											</div>
+											<img v-bind:src="presetImagePaths[i - 1]" v-bind:id="'preset-image' + (i - 1)">
+										</label>
+									</div>
 								</div>
 							</div>
-						</div>
-					</li>
-				</ul>
+						</li>
+					</ul>
+				</div>
+				<div uk-form-custom class="uk-form-controls">
+					<input type="file" v-on:change="selectBackgroundImage($event)" id="background-image-select" accept=".jpg,.jpeg,.png,.webp">
+					<button type="button" class="uk-button uk-button-default uk-button-small">背景画像を選択</button>
+					<div>画像は推奨サイズ(900×500)にトリミングされます</div>
+				</div>
+				<label class="uk-form-label uk-margin-top" for="loot-box-type">ガチャの種類</label>
+				<div class="uk-form-controls">
+					<input class="uk-input uk-form-small uk-form-width-medium" id="loot-box-type" type="text" v-model="lootBoxType" v-on:input="drawImage()">
+				</div>
+				<label class="uk-form-label uk-margin-top" for="star">星</label>
+				<select class="uk-select uk-form-small uk-form-width-xsmall" id="star" v-model="star" v-on:change="drawImage()">
+					<option v-for="i in 5" v-bind:value="i">{{ '星' + i }}</option>
+				</select>
+				<label class="uk-form-label uk-margin-top" for="character-name">キャラ名</label>
+				<div class="uk-form-controls">
+					<input class="uk-input uk-form-small uk-form-width-medium" id="character-name" type="text" v-model="characterName" v-on:input="drawImage()">
+				</div>
+				<label class="uk-form-label uk-margin-top" for="cv">CV</label>
+				<div class="uk-form-controls">
+					<input class="uk-input uk-form-small uk-form-width-medium" id="cv" type="text" v-model="cv" v-on:input="drawImage()">
+				</div>
+				<div class="uk-form-label uk-margin-top">ポジション</div>
+				<div class="uk-form-controls">
+					<label class="uk-margin-small-right"><input class="uk-radio" type="radio" value="0" v-model="position" v-on:change="drawImage()"> 前衛</label>
+					<label class="uk-margin-small-right"><input class="uk-radio" type="radio" value="1" v-model="position" v-on:change="drawImage()"> 中衛</label>
+					<label><input class="uk-radio" type="radio" value="2" v-model="position" v-on:change="drawImage()"> 後衛</label>
+				</div>
+				<label class="uk-form-label uk-margin-top" for="hp">HP</label>
+				<div class="uk-form-controls">
+					<input class="uk-input uk-form-small uk-form-width-small" id="hp" type="number" v-model="hp" v-on:input="drawImage()">
+				</div>
+				<label class="uk-form-label uk-margin-top" for="attack">物理攻撃力</label>
+				<div class="uk-form-controls">
+					<input class="uk-input uk-form-small uk-form-width-small" id="attack" type="number" v-model="attack" v-on:input="drawImage()">
+				</div>
+				<label class="uk-form-label uk-margin-top" for="magic-attack">魔法攻撃力</label>
+				<div class="uk-form-controls">
+					<input class="uk-input uk-form-small uk-form-width-small" id="magic-attack" type="number" v-model="magicAttack" v-on:input="drawImage()">
+				</div>
+				<label class="uk-form-label uk-margin-top" for="defense">物理防御力</label>
+				<div class="uk-form-controls">
+					<input class="uk-input uk-form-small uk-form-width-small" id="defense" type="number" v-model="defense" v-on:input="drawImage()">
+				</div>
+				<label class="uk-form-label uk-margin-top" for="magic-defense">魔法防御力</label>
+				<div class="uk-form-controls">
+					<input class="uk-input uk-form-small uk-form-width-small" id="magic-defense" type="number" v-model="magicDefence" v-on:input="drawImage()">
+				</div>
+				<label class="uk-form-label uk-margin-top" for="rank">ランク <span class="uk-text-muted">※RANK?/Lv?/装備強化MAXのステータスです。</span></label>
+				<div class="uk-form-controls">
+					<input class="uk-input uk-form-small uk-form-width-xsmall" id="rank" type="number" v-model="rank" v-on:input="drawImage()">
+				</div>
+				<label class="uk-form-label uk-margin-top" for="level">レベル <span class="uk-text-muted">※RANK?/Lv?/装備強化MAXのステータスです。</span></label>
+				<div class="uk-form-controls">
+					<input class="uk-input uk-form-small uk-form-width-small" id="level" type="number" v-model="level" v-on:input="drawImage()">
+				</div>
+				<label class="uk-form-label uk-margin-top" for="description">キャラ説明</label>
+				<div class="uk-form-controls">
+					<textarea class="uk-textarea" rows="3" id="description" v-model="description" v-on:input="drawImage()"></textarea>
+				</div>
+				<label class="uk-form-label uk-margin-top" for="quote">セリフ</label>
+				<div class="uk-form-controls">
+					<textarea class="uk-textarea" rows="4" id="quote" v-model="quote" v-on:input="drawImage()"></textarea>
+				</div>
+				<label class="uk-form-label uk-margin-top" for="copyright">コピーライト <span class="uk-text-warning">(実在する人物・団体・企業などのそれと誤解され得る記述は推奨しません)</span></label>
+				<div class="uk-form-controls">
+					<textarea class="uk-textarea" rows="2" id="copyright" v-model="copyright" v-on:input="drawImage()"></textarea>
+				</div>
+				<label class="uk-form-label uk-margin-top" for="supplement">補足</label>
+				<div class="uk-form-controls">
+					<textarea class="uk-textarea" rows="2" id="supplement" v-model="supplement" v-on:input="drawImage()"></textarea>
+				</div>
+				<label class="uk-form-label uk-margin-top" for="ribbon-color">リボンの色</label>
+				<div class="uk-form-controls">
+					<input type="color" v-model="ribbonColor" id="ribbon-color" v-on:input="drawImage()">
+				</div>
+				<label class="uk-form-label uk-margin-top" for="status-and-description-color">ステータスとキャラ説明の色</label>
+				<div class="uk-form-controls">
+					<input type="color" v-model="statusAndDescriptionColor" id="status-and-description-color" v-on:input="drawImage()">
+				</div>
+				<label class="uk-form-label uk-margin-top" for="quote-color">セリフの色</label>
+				<div class="uk-form-controls">
+					<input type="color" v-model="quoteColor" id="quote-color" v-on:input="drawImage()">
+				</div>
+			</form>
+			<button class="uk-button uk-button-default uk-button-small uk-margin-top" v-on:click="saveImage()">画像を保存</button>
+			<div id="spacer" class="uk-margin-top"></div>
+			<div id="footer">
+				<div>プレビュー<label class="uk-margin-left"><input type="checkbox" class="uk-checkbox" v-model="previewFixing" v-on:change="changePreviewFixing()"> 常に画面内に表示</label></div>
+				<div><canvas id="preview" width="900" height="500"></canvas></div>
 			</div>
-			<div uk-form-custom class="uk-form-controls">
-				<input type="file" v-on:change="selectBackgroundImage($event)" id="background-image-select" accept=".jpg,.jpeg,.png,.webp">
-				<button type="button" class="uk-button uk-button-default uk-button-small">背景画像を選択</button>
-				<div>画像は推奨サイズ(900×500)にトリミングされます</div>
-			</div>
-			<label class="uk-form-label uk-margin-top" for="loot-box-type">ガチャの種類</label>
-			<div class="uk-form-controls">
-				<input class="uk-input uk-form-small uk-form-width-medium" id="loot-box-type" type="text" v-model="lootBoxType" v-on:input="drawImage()">
-			</div>
-			<label class="uk-form-label uk-margin-top" for="star">星</label>
-			<select class="uk-select uk-form-small uk-form-width-xsmall" id="star" v-model="star" v-on:change="drawImage()">
-				<option v-for="i in 5" v-bind:value="i">{{ '星' + i }}</option>
-			</select>
-			<label class="uk-form-label uk-margin-top" for="character-name">キャラ名</label>
-			<div class="uk-form-controls">
-				<input class="uk-input uk-form-small uk-form-width-medium" id="character-name" type="text" v-model="characterName" v-on:input="drawImage()">
-			</div>
-			<label class="uk-form-label uk-margin-top" for="cv">CV</label>
-			<div class="uk-form-controls">
-				<input class="uk-input uk-form-small uk-form-width-medium" id="cv" type="text" v-model="cv" v-on:input="drawImage()">
-			</div>
-			<div class="uk-form-label uk-margin-top">ポジション</div>
-			<div class="uk-form-controls">
-				<label class="uk-margin-small-right"><input class="uk-radio" type="radio" value="0" v-model="position" v-on:change="drawImage()"> 前衛</label>
-				<label class="uk-margin-small-right"><input class="uk-radio" type="radio" value="1" v-model="position" v-on:change="drawImage()"> 中衛</label>
-				<label><input class="uk-radio" type="radio" value="2" v-model="position" v-on:change="drawImage()"> 後衛</label>
-			</div>
-			<label class="uk-form-label uk-margin-top" for="hp">HP</label>
-			<div class="uk-form-controls">
-				<input class="uk-input uk-form-small uk-form-width-small" id="hp" type="number" v-model="hp" v-on:input="drawImage()">
-			</div>
-			<label class="uk-form-label uk-margin-top" for="attack">物理攻撃力</label>
-			<div class="uk-form-controls">
-				<input class="uk-input uk-form-small uk-form-width-small" id="attack" type="number" v-model="attack" v-on:input="drawImage()">
-			</div>
-			<label class="uk-form-label uk-margin-top" for="magic-attack">魔法攻撃力</label>
-			<div class="uk-form-controls">
-				<input class="uk-input uk-form-small uk-form-width-small" id="magic-attack" type="number" v-model="magicAttack" v-on:input="drawImage()">
-			</div>
-			<label class="uk-form-label uk-margin-top" for="defense">物理防御力</label>
-			<div class="uk-form-controls">
-				<input class="uk-input uk-form-small uk-form-width-small" id="defense" type="number" v-model="defense" v-on:input="drawImage()">
-			</div>
-			<label class="uk-form-label uk-margin-top" for="magic-defense">魔法防御力</label>
-			<div class="uk-form-controls">
-				<input class="uk-input uk-form-small uk-form-width-small" id="magic-defense" type="number" v-model="magicDefence" v-on:input="drawImage()">
-			</div>
-			<label class="uk-form-label uk-margin-top" for="rank">ランク <span class="uk-text-muted">※RANK?/Lv?/装備強化MAXのステータスです。</span></label>
-			<div class="uk-form-controls">
-				<input class="uk-input uk-form-small uk-form-width-xsmall" id="rank" type="number" v-model="rank" v-on:input="drawImage()">
-			</div>
-			<label class="uk-form-label uk-margin-top" for="level">レベル <span class="uk-text-muted">※RANK?/Lv?/装備強化MAXのステータスです。</span></label>
-			<div class="uk-form-controls">
-				<input class="uk-input uk-form-small uk-form-width-small" id="level" type="number" v-model="level" v-on:input="drawImage()">
-			</div>
-			<label class="uk-form-label uk-margin-top" for="description">キャラ説明</label>
-			<div class="uk-form-controls">
-				<textarea class="uk-textarea" rows="3" id="description" v-model="description" v-on:input="drawImage()"></textarea>
-			</div>
-			<label class="uk-form-label uk-margin-top" for="quote">セリフ</label>
-			<div class="uk-form-controls">
-				<textarea class="uk-textarea" rows="4" id="quote" v-model="quote" v-on:input="drawImage()"></textarea>
-			</div>
-			<label class="uk-form-label uk-margin-top" for="copyright">コピーライト <span class="uk-text-warning">(実在する人物・団体・企業などのそれと誤解され得る記述は推奨しません)</span></label>
-			<div class="uk-form-controls">
-				<textarea class="uk-textarea" rows="2" id="copyright" v-model="copyright" v-on:input="drawImage()"></textarea>
-			</div>
-			<label class="uk-form-label uk-margin-top" for="supplement">補足</label>
-			<div class="uk-form-controls">
-				<textarea class="uk-textarea" rows="2" id="supplement" v-model="supplement" v-on:input="drawImage()"></textarea>
-			</div>
-			<label class="uk-form-label uk-margin-top" for="ribbon-color">リボンの色</label>
-			<div class="uk-form-controls">
-				<input type="color" v-model="ribbonColor" id="ribbon-color" v-on:input="drawImage()">
-			</div>
-			<label class="uk-form-label uk-margin-top" for="status-and-description-color">ステータスとキャラ説明の色</label>
-			<div class="uk-form-controls">
-				<input type="color" v-model="statusAndDescriptionColor" id="status-and-description-color" v-on:input="drawImage()">
-			</div>
-			<label class="uk-form-label uk-margin-top" for="quote-color">セリフの色</label>
-			<div class="uk-form-controls">
-				<input type="color" v-model="quoteColor" id="quote-color" v-on:input="drawImage()">
-			</div>
-		</form>
-		<button class="uk-button uk-button-default uk-button-small uk-margin-top" v-on:click="saveImage()">画像を保存</button>
-		<div id="spacer" class="uk-margin-top"></div>
-		<div id="footer">
-			<div>プレビュー<label class="uk-margin-left"><input type="checkbox" class="uk-checkbox" v-model="previewFixing" v-on:change="changePreviewFixing()"> 常に画面内に表示</label></div>
-			<div><canvas id="preview" width="900" height="500"></canvas></div>
 		</div>
 		<div class="resource">
 			<img v-bind:src="starImagePath" id="star-image">
@@ -135,8 +138,10 @@ import UIkit from 'uikit';
 export default {
 	data: function() {
 		return {
-			notificationDisplayed: false,
-			notification: 'ページの再読み込みをしてください',
+			loaded: false,
+			contentStyle: {display: 'none'},
+			intervalId: null,
+			progress: 0,
 			previewFixing: false,
 			backgroundImagePath: require('./img/aqua0.webp'),
 			presetImageIndex: 0,
@@ -171,21 +176,29 @@ export default {
 				families: ['Kosugi Maru'],
 			},
 			timeout: 30000,
-			active:() => {
+			loading: () => {
+				this.intervalId = setInterval(() => {
+					if (this.progress + 10 < 100) {
+						this.progress += 10
+					}
+					else {
+						this.progress = 99;
+					}
+				}, 1000);
+			},
+			active: () => {
+				clearInterval(this.intervalId);
+				this.progress = 100;
+				this.loaded = true;
+				this.$set(this.contentStyle, 'display', 'block');
 				document.getElementById('background-image').addEventListener('load', () => {
 					this.drawImage();
 				});
 				this.drawImage();
-			},
-			inactive: () => {
-				this.notificationDisplayed = true;
 			}
 		});
 	},
 	methods: {
-		reloadPage: function() {
-			location.reload(false);
-		},
 		changePreviewFixing: function() {
 			if (this.previewFixing) {
 				const canvas = document.getElementById('preview');
