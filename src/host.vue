@@ -628,8 +628,6 @@ export default {
 }
 </script>
 <style scoped>
-@import './style.css';
-
 @media screen and (max-width: 420px) {
 	.title-break::before {
 		content: '\A';
