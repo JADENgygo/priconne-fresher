@@ -2,3 +2,13 @@
 	font-family: "Kosugi Maru";
 	src: url("./KosugiMaru-Regular.ttf") format("truetype");
 }
+@font-face {
+	font-family: "Kosugi Maru";
+	font-style: italic;
+	src: url("./KosugiMaru-Regular.ttf") format("truetype");
+}
+@font-face {
+	font-family: "Kosugi Maru";
+	font-weight: bold;
+	src: url("./KosugiMaru-Regular.ttf") format("truetype");
+}
