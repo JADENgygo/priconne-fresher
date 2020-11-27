@@ -2,7 +2,10 @@
 	<div class="uk-container">
 		<div class="uk-margin-small-top uk-text-muted uk-text-right">サイト作成者: <a class="uk-link-muted" href="https://twitter.com/JADENgygo">@JADEN</a></div>
 		<div class="uk-text-lead uk-text-center uk-margin-top">ガチャ告知画像<span class="title-break">ジェネレーター</span></div>
-		<div class="uk-margin-top" v-if="notificationDisplayed">{{ notification }}</div>
+		<div class="uk-margin-top" v-if="notificationDisplayed">
+			<div uk-alert class="uk-alert-primary">{{ notification }}</div>
+			<button class="uk-button uk-button-default uk-button-small" v-on:click="reloadPage()">再読み込み</button>
+		</div>
 		<div v-bind:style="contentVisibility">
 			<form class="uk-form-stacked">
 				<div class="uk-form-label uk-margin-top">背景画像</div>
@@ -89,17 +92,17 @@
 				<div class="uk-form-controls">
 					<textarea class="uk-textarea" rows="3" id="description" v-model="description" v-on:input="drawImage()"></textarea>
 				</div>
-				<label class="uk-form-label uk-margin-top" for="supplement">補足</label>
-				<div class="uk-form-controls">
-					<textarea class="uk-textarea" rows="2" id="supplement" v-model="supplement" v-on:input="drawImage()"></textarea>
-				</div>
-				<label class="uk-form-label uk-margin-top" for="copyright">コピーライト</label>
-				<div class="uk-form-controls">
-					<textarea class="uk-textarea" rows="2" id="copyright" v-model="copyright" v-on:input="drawImage()"></textarea>
-				</div>
 				<label class="uk-form-label uk-margin-top" for="quote">セリフ</label>
 				<div class="uk-form-controls">
 					<textarea class="uk-textarea" rows="4" id="quote" v-model="quote" v-on:input="drawImage()"></textarea>
+				</div>
+				<label class="uk-form-label uk-margin-top" for="copyright">コピーライト <span class="uk-text-warning">(実在する人物・団体・企業などのそれと誤解され得る記述は推奨しません)</span></label>
+				<div class="uk-form-controls">
+					<textarea class="uk-textarea" rows="2" id="copyright" v-model="copyright" v-on:input="drawImage()"></textarea>
+				</div>
+				<label class="uk-form-label uk-margin-top" for="supplement">補足</label>
+				<div class="uk-form-controls">
+					<textarea class="uk-textarea" rows="2" id="supplement" v-model="supplement" v-on:input="drawImage()"></textarea>
 				</div>
 				<label class="uk-form-label uk-margin-top" for="ribbon-color">リボンの色</label>
 				<div class="uk-form-controls">
@@ -156,13 +159,13 @@ export default {
 			magicDefence: 800,
 			rank: 19,
 			level: 181,
-			description: '【魔法】中衛で、神の力を使う、水を司る女神様。\n女神の怒りと悲しみを乗せた必殺の拳と、女神の\n愛と悲しみの鎮魂歌で敵を浄化する。',
-			supplement: '\n対象のガチャの内容や開催期間は、予告なく変更する可能性があります。',
-			copyright: 'Copyright? Axis Cult.',
+			description: '【魔法】中衛で、神の力を使う、水を司る女神様。\n女神の怒りと悲しみを乗せた必殺の拳と、女神の\n愛と悲しみの鎮魂歌で、敵を浄化する。',
 			quote: '「ゴッドレクイエムとは\n　　女神の愛と\n　　　悲しみの鎮魂歌！\n　　　　　　　相手は死ぬ！」',
+			copyright: 'Fake Copyright Axis Cult.',
+			supplement: '\n対象のガチャの内容や開催期間は、予告なく変更する可能性があります。',
 			ribbonColor: '#0064FF',
 			statusAndDescriptionColor: '#0064FF',
-			quoteColor: '#0064FF'
+			quoteColor: '#0064FF',
 		};
 	},
 	mounted: function() {
@@ -171,8 +174,6 @@ export default {
 				families: ['Kosugi Maru'],
 			},
 			active:() => {
-				this.progress = 100;
-				this.progressDisplayed = false;
 				document.getElementById('background-image').addEventListener('load', () => {
 					this.drawImage();
 				});
@@ -185,6 +186,9 @@ export default {
 		});
 	},
 	methods: {
+		reloadPage: function() {
+			location.reload(false);
+		},
 		changePreviewFixing: function() {
 			if (this.previewFixing) {
 				const canvas = document.getElementById('preview');
@@ -213,6 +217,10 @@ export default {
 			this.backgroundImagePath = this.presetImagePaths[index];
 		},
 		selectBackgroundImage: function(event) {
+			// 一度ダイアログで画像を選択した後に、もう一度ダイアログを開いてキャンセルすると本関数が呼ばれるがevent.target.files[0]がundefinedになるため
+			if (!event.target.files[0]) {
+				return;
+			}
 			const reader = new FileReader();
 			reader.readAsArrayBuffer(event.target.files[0]);
 			reader.onload = (e) => {
