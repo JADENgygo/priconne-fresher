@@ -7,7 +7,7 @@
 			<div class="uk-width-3-5"><progress class="uk-progress" v-bind:value="progress" max="100"></progress></div>
 			<div class="uk-width-1-5"></div>
 		</div>
-		<div v-bind:style="contentStyle">
+		<div v-bind:style="contentStyle" id="content">
 			<form class="uk-form-stacked">
 				<div class="uk-form-label uk-margin-top">背景画像</div>
 				<div class="uk-form-controls">
@@ -189,12 +189,15 @@ export default {
 			active: () => {
 				clearInterval(this.intervalId);
 				this.progress = 100;
-				this.loaded = true;
-				this.$set(this.contentStyle, 'display', 'block');
-				document.getElementById('background-image').addEventListener('load', () => {
+				setTimeout(() => {
+					this.loaded = true;
+					this.$set(this.contentStyle, 'display', 'block');
+					UIkit.scrollspy(document.getElementById('content'), {cls: 'uk-animation-fade'});
+					document.getElementById('background-image').addEventListener('load', () => {
+						this.drawImage();
+					});
 					this.drawImage();
-				});
-				this.drawImage();
+				}, 500);
 			}
 		});
 	},
