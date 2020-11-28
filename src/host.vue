@@ -1,6 +1,6 @@
 <template>
 	<div class="uk-container">
-		<div class="uk-margin-small-top uk-text-muted uk-text-right">サイト作成者: <a class="uk-link-muted" href="https://twitter.com/JADENgygo">@JADEN</a></div>
+		<div class="uk-margin-small-top uk-text-muted uk-text-right">サイト作成者: <a class="uk-link-muted" href="https://twitter.com/JADENgygo">@JADENgygo</a></div>
 		<div class="uk-text-lead uk-text-center uk-margin-top">ガチャ告知画像<span class="title-break">ジェネレーター</span></div>
 		<div uk-grid class="uk-grid-small uk-margin-top" v-if="!loaded">
 			<div class="uk-width-1-5"></div>
