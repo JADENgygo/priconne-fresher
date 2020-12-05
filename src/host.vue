@@ -121,10 +121,7 @@
 				</div>
 			</form>
 			<button class="uk-button uk-button-default uk-button-small uk-margin-top" v-on:click="saveImage()">画像を保存</button>
-			<div uk-alert class="uk-alert-primary">
-				<a class="uk-alert-close" uk-close></a>
-				<div>ボタンが動作しない時はプレビューを保存するか別ブラウザを使用してください</div>
-			</div>
+			<div uk-alert class="uk-alert-primary">ボタンが動作しない時はプレビューを保存するか別ブラウザを使用してください</div>
 			<div>プレビュー</div>
 			<img id="preview" v-bind:style="previewStyle" class="uk-margin-small-bottom">
 		</div>
