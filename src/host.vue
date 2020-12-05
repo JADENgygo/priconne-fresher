@@ -13,8 +13,6 @@
 				<div class="uk-form-controls">
 					<div uk-grid class="uk-grid-small uk-child-width-1-2 uk-child-width-1-3@s">
 						<div><img v-bind:src="backgroundImagePath" id="background-image"></div>
-						<div></div>
-						<div></div>
 					</div>
 					<ul uk-accordion>
 						<li>
