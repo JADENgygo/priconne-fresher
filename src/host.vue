@@ -273,7 +273,7 @@ export default {
 							const context = canvas.getContext('2d');
 							context.drawImage(image, 0, 0, image.width, image.height);
 							this.presetImageIndex = -1;
-							this.backgroundImagePath = canvas.toDataURL();
+							this.backgroundImagePath = canvas.toDataURL('image/webp', 1.0);
 						};
 					};
 				}
@@ -614,7 +614,7 @@ export default {
 			}
 			context.rotate(-Math.PI / 50.0);
 
-			document.getElementById('preview').src = canvas.toDataURL();
+			document.getElementById('preview').src = canvas.toDataURL('image/webp', 1.0);
 		},
 		drawString: function(context, drawType, xs, ys, text) {
 			let breakPos = 0;
