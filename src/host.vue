@@ -51,6 +51,10 @@
 				<div class="uk-form-controls">
 					<input class="uk-input uk-form-small uk-form-width-medium" id="character-name" type="text" v-model="characterName" v-on:input="drawImage()">
 				</div>
+				<label class="uk-form-label uk-margin-top" for="character-style">キャラスタイル</label>
+				<div class="uk-form-controls">
+					<input class="uk-input uk-form-small uk-form-width-medium" id="character-style" type="text" v-model="characterStyle" v-on:input="drawImage()">
+				</div>
 				<label class="uk-form-label uk-margin-top" for="cv">CV</label>
 				<div class="uk-form-controls">
 					<input class="uk-input uk-form-small uk-form-width-medium" id="cv" type="text" v-model="cv" v-on:input="drawImage()">
@@ -119,15 +123,17 @@
 				</div>
 			</form>
 			<button class="uk-button uk-button-default uk-button-small uk-margin-top" v-on:click="saveImage()">画像を保存</button>
-			<div id="spacer" class="uk-margin-top"></div>
-			<div id="footer">
-				<div>プレビュー<label class="uk-margin-left"><input type="checkbox" class="uk-checkbox" v-model="previewFixing" v-on:change="changePreviewFixing()"> 常に画面内に表示</label></div>
-				<div><canvas id="preview" width="900" height="500"></canvas></div>
+			<div uk-alert class="uk-alert-primary">
+				<a class="uk-alert-close" uk-close></a>
+				<div>ボタンが動作しない時はプレビューを保存するか別ブラウザを使用してください</div>
 			</div>
+			<div>プレビュー</div>
+			<img id="preview" v-bind:style="previewStyle" class="uk-margin-small-bottom">
 		</div>
 		<div class="resource">
 			<img v-bind:src="starImagePath" id="star-image">
 			<img v-for="i in 3" v-bind:src="positionImagePaths[i - 1]" v-bind:id="'position-image' + (i - 1)">
+			<canvas id="canvas" width="900" height="500"></canvas>
 			<canvas id="work-canvas"></canvas>
 		</div>
 	</div>
@@ -142,7 +148,7 @@ export default {
 			contentStyle: {display: 'none'},
 			intervalId: null,
 			progress: 0,
-			previewFixing: false,
+			previewStyle: {},
 			backgroundImagePath: require('./img/aqua0.webp'),
 			presetImageIndex: 0,
 			presetNames: ['アクア1', 'アクア2', 'めぐみん', 'ダクネス'],
@@ -152,6 +158,7 @@ export default {
 			lootBoxType: '新キャラ登場！',
 			star: 3,
 			characterName: 'アクア',
+			characterStyle: '',
 			cv: '雨宮天',
 			position: 1,
 			hp: 60000,
@@ -173,9 +180,9 @@ export default {
 	mounted: function() {
 		WebFont.load({
 			custom: {
-				families: ['Kosugi Maru'],
+				families: ['Kosugi Maru', 'Kosugi'],
 			},
-			timeout: 30000,
+			timeout: 300000,
 			loading: () => {
 				this.intervalId = setInterval(() => {
 					if (this.progress + 10 < 100) {
@@ -184,7 +191,7 @@ export default {
 					else {
 						this.progress = 99;
 					}
-				}, 1000);
+				}, 2000);
 			},
 			active: () => {
 				clearInterval(this.intervalId);
@@ -193,6 +200,22 @@ export default {
 					this.loaded = true;
 					this.$set(this.contentStyle, 'display', 'block');
 					UIkit.scrollspy(document.getElementById('content'), {cls: 'uk-animation-fade'});
+
+					const f = style => {
+						if (window.orientation === 0 && window.matchMedia(`(${style}-width:426px)`).matches) {
+							this.$set(this.previewStyle, 'height', 'auto');
+							this.$set(this.previewStyle, 'width', 'auto');
+						}
+						else {
+							this.$set(this.previewStyle, 'height', 'auto');
+							this.$set(this.previewStyle, 'width', '66%');
+						}
+					};
+					f('max');
+					window.addEventListener('resize', () => f('max'));
+					// matchMediaは回転前の幅を判定しているらしいのでminとmaxが逆になる？
+					window.addEventListener('orientationchange', () => f('min'));
+
 					document.getElementById('background-image').addEventListener('load', () => {
 						this.drawImage();
 					});
@@ -202,24 +225,8 @@ export default {
 		});
 	},
 	methods: {
-		changePreviewFixing: function() {
-			if (this.previewFixing) {
-				const canvas = document.getElementById('preview');
-				const width = canvas.getBoundingClientRect().width;
-				const height = canvas.getBoundingClientRect().height;
-				document.getElementById('spacer').style.height = document.getElementById('footer').clientHeight + 'px';
-				document.getElementById('footer').style.position = 'fixed';
-				document.getElementById('footer').style.bottom = '0';
-				canvas.style.width = width + 'px';
-				canvas.style.height = height + 'px';
-			}
-			else {
-				document.getElementById('spacer').style.height = 0;
-				document.getElementById('footer').style.position = 'static';
-			}
-		},
 		saveImage: function() {
-			const canvas = document.getElementById('preview');
+			const canvas = document.getElementById('canvas');
 			const a = document.createElement('a');
 			a.href = canvas.toDataURL('image/png');
 			a.download = 'ガチャ告知.png';
@@ -284,13 +291,15 @@ export default {
 			};
 		},
 		drawImage: function() {
-			const canvas = document.getElementById('preview');
+			const canvas = document.getElementById('canvas');
 			const context = canvas.getContext('2d');
 			context.clearRect(0, 0, canvas.width, canvas.height);
 			
 			// 共通設定
 			context.textBaseline = 'top';
 			context.lineJoin = 'round';
+			context.lineCap = 'round';
+			context.miterLimit = 1;
 
 			// 背景
 			const b = document.getElementById('background-image');
@@ -377,23 +386,53 @@ export default {
 			}
 
 			// 名前
-			context.font = "bold 50px 'Kosugi Maru'";
+			context.font = "bold 50px 'Kosugi'";
+			context.strokeStyle = 'rgba(0, 0, 0, 0.3)';
+			context.lineWidth = 5;
+			context.strokeText(this.characterName, 20, 113);
+
 			context.fillStyle = 'rgba(0, 0, 0, 0.3)';
-			context.fillText(this.characterName, 20, 115);
-			context.beginPath();
+			context.fillText(this.characterName, 20, 113);
 			{
-				const strokeGradient = context.createLinearGradient(20, 110, 20, 165);
+				context.beginPath();
+				const strokeGradient = context.createLinearGradient(20, 110, 20, 160);
 				strokeGradient.addColorStop(0.0, 'rgb(191, 147, 82)');
 				strokeGradient.addColorStop(1.0, 'rgb(90, 56, 8)');
 				context.strokeStyle = strokeGradient;
 				context.lineWidth = 5;
 				context.strokeText(this.characterName, 20, 110);
 
-				const fillGradient = context.createLinearGradient(20, 110, 20, 165);
+				const fillGradient = context.createLinearGradient(20, 110, 20, 160);
 				fillGradient.addColorStop(0.0, 'rgb(255, 252, 225)');
 				fillGradient.addColorStop(1.0, 'rgb(221, 184, 103)');
 				context.fillStyle = fillGradient;
 				context.fillText(this.characterName, 20, 110);
+			}
+
+			// キャラクタースタイル
+			{
+				const offset = context.measureText(this.characterName).width;
+				context.font = "bold 35px 'Kosugi'";
+				context.strokeStyle = 'rgba(0, 0, 0, 0.3)';
+				context.lineWidth = 5;
+				context.strokeText(this.characterStyle, 20 + offset, 125);
+
+				context.fillStyle = 'rgba(0, 0, 0, 0.3)';
+				context.fillText(this.characterStyle, 20 + offset, 125);
+
+				context.beginPath();
+				const strokeGradient = context.createLinearGradient(20 + offset, 122, 20 + offset, 157);
+				strokeGradient.addColorStop(0.0, 'rgb(191, 147, 82)');
+				strokeGradient.addColorStop(1.0, 'rgb(90, 56, 8)');
+				context.strokeStyle = strokeGradient;
+				context.lineWidth = 5;
+				context.strokeText(this.characterStyle, 20 + offset, 122);
+
+				const fillGradient = context.createLinearGradient(20 + offset, 122, 20 + offset, 157);
+				fillGradient.addColorStop(0.0, 'rgb(255, 252, 225)');
+				fillGradient.addColorStop(1.0, 'rgb(221, 184, 103)');
+				context.fillStyle = fillGradient;
+				context.fillText(this.characterStyle, 20 + offset, 122);
 			}
 
 			// CV
@@ -576,6 +615,8 @@ export default {
 				}
 			}
 			context.rotate(-Math.PI / 50.0);
+
+			document.getElementById('preview').src = canvas.toDataURL();
 		},
 		drawString: function(context, drawType, xs, ys, text) {
 			let breakPos = 0;
