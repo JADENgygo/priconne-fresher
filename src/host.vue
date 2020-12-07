@@ -122,11 +122,13 @@
 					<input type="color" v-model="quoteColor" id="quote-color" v-on:input="drawImage()" class="uk-margin-right">
 					<button class="uk-button uk-button-default uk-button-small" v-on:click="resetColor()">リセット</button>
 				</div>
+				<button class="uk-button uk-button-default uk-button-small uk-margin-top" v-on:click="saveImage()">画像を保存</button>
+				<div uk-alert class="uk-alert-primary">ボタンが動作しない時はプレビューを保存するか別ブラウザを使用してください</div>
+				<div class="uk-form-label">プレビュー</div>
+				<div class="uk-form-controls">
+					<img id="preview" v-bind:style="previewStyle" class="uk-margin-small-bottom">
+				</div>
 			</div>
-			<button class="uk-button uk-button-default uk-button-small uk-margin-top" v-on:click="saveImage()">画像を保存</button>
-			<div uk-alert class="uk-alert-primary">ボタンが動作しない時はプレビューを保存するか別ブラウザを使用してください</div>
-			<div>プレビュー</div>
-			<img id="preview" v-bind:style="previewStyle" class="uk-margin-small-bottom">
 		</div>
 		<div class="resource">
 			<img v-bind:src="starImagePath" id="star-image">
