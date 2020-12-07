@@ -34,7 +34,7 @@
 				</ul>
 				<div uk-form-custom class="uk-form-controls">
 					<input type="file" v-on:change="selectBackgroundImage($event)" id="background-image-select" accept=".jpg,.jpeg,.png,.webp">
-					<button type="button" class="uk-button uk-button-default uk-button-small">背景画像を選択</button>
+					<button class="uk-button uk-button-default uk-button-small">背景画像を選択</button>
 				</div>
 				<div uk-alert class="uk-alert-primary">画像は推奨サイズ(900×500)にトリミングされます</div>
 				<label class="uk-form-label" for="loot-box-type">ガチャの種類</label>
@@ -109,15 +109,18 @@
 				</div>
 				<label class="uk-form-label uk-margin-top" for="ribbon-color">リボンの色</label>
 				<div class="uk-form-controls">
-					<input type="color" v-model="ribbonColor" id="ribbon-color" v-on:input="drawImage()">
+					<input type="color" v-model="ribbonColor" id="ribbon-color" v-on:input="drawImage()" class="uk-margin-right">
+					<button class="uk-button uk-button-default uk-button-small" v-on:click="resetColor()">リセット</button>
 				</div>
 				<label class="uk-form-label uk-margin-top" for="status-and-description-color">ステータスとキャラ説明の色</label>
 				<div class="uk-form-controls">
-					<input type="color" v-model="statusAndDescriptionColor" id="status-and-description-color" v-on:input="drawImage()">
+					<input type="color" v-model="statusAndDescriptionColor" id="status-and-description-color" v-on:input="drawImage()" class="uk-margin-right">
+					<button class="uk-button uk-button-default uk-button-small" v-on:click="resetColor()">リセット</button>
 				</div>
 				<label class="uk-form-label uk-margin-top" for="quote-color">セリフの色</label>
 				<div class="uk-form-controls">
-					<input type="color" v-model="quoteColor" id="quote-color" v-on:input="drawImage()">
+					<input type="color" v-model="quoteColor" id="quote-color" v-on:input="drawImage()" class="uk-margin-right">
+					<button class="uk-button uk-button-default uk-button-small" v-on:click="resetColor()">リセット</button>
 				</div>
 			</div>
 			<button class="uk-button uk-button-default uk-button-small uk-margin-top" v-on:click="saveImage()">画像を保存</button>
@@ -672,6 +675,12 @@ export default {
 			}
 			return rgb;
 		},
+		resetColor: function() {
+			this.ribbonColor = '#0064FF';
+			this.statusAndDescriptionColor = '#0064FF';
+			this.quoteColor = '#0064FF';
+			this.drawImage();
+		}
 	}
 }
 </script>
