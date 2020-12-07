@@ -20,12 +20,12 @@
 						<a class="uk-accordion-title uk-text-small" href="#">背景画像プリセット</a>
 						<div class="uk-accordion-content">
 							<div uk-grid class="uk-grid-small uk-child-width-1-2 uk-child-width-1-3@s uk-child-width-1-4@m">
-								<div v-for="i in 4">
+								<div v-for="i in 4" class="uk-text-center">
 									<label>
-										<div class="uk-text-center">
-											<input type="radio" class="uk-radio" v-bind:value="i - 1" v-model="presetImageIndex" v-on:click="clearSelectFile(i - 1)" v-bind:checked="i === 1"> {{ presetNames[i - 1] }}
+										<div class="uk-form-controls">
+											<div><input type="radio" class="uk-radio" v-bind:value="i - 1" v-model="presetImageIndex" v-on:click="clearSelectFile(i - 1)" v-bind:checked="i === 1"> {{ presetNames[i - 1] }}</div>
+											<img v-bind:src="presetImagePaths[i - 1]">
 										</div>
-										<img v-bind:src="presetImagePaths[i - 1]" v-bind:id="'preset-image' + (i - 1)">
 									</label>
 								</div>
 							</div>
