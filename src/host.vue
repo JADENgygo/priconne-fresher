@@ -8,36 +8,36 @@
 			<div class="uk-width-1-5"></div>
 		</div>
 		<div v-bind:style="contentStyle" id="content">
-			<form class="uk-form-stacked">
+			<div class="uk-form-stacked">
 				<div class="uk-form-label uk-margin-top">背景画像</div>
 				<div class="uk-form-controls">
 					<div uk-grid class="uk-grid-small uk-child-width-1-2 uk-child-width-1-3@s">
 						<div><img v-bind:src="backgroundImagePath" id="background-image"></div>
 					</div>
-					<ul uk-accordion>
-						<li>
-							<a class="uk-accordion-title" href="#">背景画像プリセット</a>
-							<div class="uk-accordion-content">
-								<div uk-grid class="uk-grid-small uk-child-width-1-2 uk-child-width-1-3@s uk-child-width-1-4@m">
-									<div v-for="i in 4">
-										<label>
-											<div class="uk-text-center">
-												<input type="radio" class="uk-radio" v-bind:value="i - 1" v-model="presetImageIndex" v-on:click="clearSelectFile(i - 1)" v-bind:checked="i === 1"> {{ presetNames[i - 1] }}
-											</div>
-											<img v-bind:src="presetImagePaths[i - 1]" v-bind:id="'preset-image' + (i - 1)">
-										</label>
-									</div>
+				</div>
+				<ul uk-accordion>
+					<li>
+						<a class="uk-accordion-title uk-text-small" href="#">背景画像プリセット</a>
+						<div class="uk-accordion-content">
+							<div uk-grid class="uk-grid-small uk-child-width-1-2 uk-child-width-1-3@s uk-child-width-1-4@m">
+								<div v-for="i in 4">
+									<label>
+										<div class="uk-text-center">
+											<input type="radio" class="uk-radio" v-bind:value="i - 1" v-model="presetImageIndex" v-on:click="clearSelectFile(i - 1)" v-bind:checked="i === 1"> {{ presetNames[i - 1] }}
+										</div>
+										<img v-bind:src="presetImagePaths[i - 1]" v-bind:id="'preset-image' + (i - 1)">
+									</label>
 								</div>
 							</div>
-						</li>
-					</ul>
-				</div>
+						</div>
+					</li>
+				</ul>
 				<div uk-form-custom class="uk-form-controls">
 					<input type="file" v-on:change="selectBackgroundImage($event)" id="background-image-select" accept=".jpg,.jpeg,.png,.webp">
 					<button type="button" class="uk-button uk-button-default uk-button-small">背景画像を選択</button>
-					<div>画像は推奨サイズ(900×500)にトリミングされます</div>
 				</div>
-				<label class="uk-form-label uk-margin-top" for="loot-box-type">ガチャの種類</label>
+				<div uk-alert class="uk-alert-primary">画像は推奨サイズ(900×500)にトリミングされます</div>
+				<label class="uk-form-label" for="loot-box-type">ガチャの種類</label>
 				<div class="uk-form-controls">
 					<input class="uk-input uk-form-small uk-form-width-medium" id="loot-box-type" type="text" v-model="lootBoxType" v-on:input="drawImage()">
 				</div>
@@ -119,7 +119,7 @@
 				<div class="uk-form-controls">
 					<input type="color" v-model="quoteColor" id="quote-color" v-on:input="drawImage()">
 				</div>
-			</form>
+			</div>
 			<button class="uk-button uk-button-default uk-button-small uk-margin-top" v-on:click="saveImage()">画像を保存</button>
 			<div uk-alert class="uk-alert-primary">ボタンが動作しない時はプレビューを保存するか別ブラウザを使用してください</div>
 			<div>プレビュー</div>
