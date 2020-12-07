@@ -49,7 +49,7 @@
 				<div class="uk-form-controls">
 					<input class="uk-input uk-form-small uk-form-width-medium" id="character-name" type="text" v-model="characterName" v-on:input="drawImage()">
 				</div>
-				<label class="uk-form-label uk-margin-top" for="character-style">キャラスタイル</label>
+				<label class="uk-form-label uk-margin-top" for="character-style">キャラスタイル <span class="uk-text-muted">※キャラ名(キャラスタイル)</span></label>
 				<div class="uk-form-controls">
 					<input class="uk-input uk-form-small uk-form-width-medium" id="character-style" type="text" v-model="characterStyle" v-on:input="drawImage()">
 				</div>
