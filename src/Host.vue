@@ -170,8 +170,8 @@ export default class Host extends Vue {
 	magicAttack: number = 16000;
 	defense: number = 1000;
 	magicDefence: number = 800;
-	rank: number = 19;
-	level: number = 181;
+	rank: number = 20;
+	level: number = 200;
 	description: string = '【魔法】中衛で、神の力を使う、水を司る女神様。\n女神の怒りと悲しみを乗せた必殺の拳と、女神の\n愛と悲しみの鎮魂歌で、敵を浄化する。';
 	quote: string = '「ゴッドレクイエムとは\n　　女神の愛と\n　　　悲しみの鎮魂歌！\n　　　　　　　相手は死ぬ！」';
 	copyright: string = 'Fake Copyright Axis Cult.';
