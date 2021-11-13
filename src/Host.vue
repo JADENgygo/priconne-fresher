@@ -159,7 +159,7 @@ export default class Host extends Vue {
 	presetImagePaths: string[] = [require('./img/aqua0.webp'),require('./img/aqua1.webp'), require('./img/megumin.webp'),require('./img/darkness.webp')];
 	starImagePath: string = require('./img/star.webp');
 	positionImagePaths: string[] = [require('./img/front.webp'), require('./img/center.webp'), require('./img/back.webp')];
-	lootBoxType: string = '新キャラ登場！';
+	lootBoxType: string = '新キャラ登場!';
 	star: number = 3;
 	characterName: string = 'アクア';
 	characterStyle: string = '';
