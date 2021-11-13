@@ -312,12 +312,16 @@ export default class Host extends Vue {
 		context.drawImage(b, 0, 0);
 
 		// リボンの影
+		// リボンの横幅を計算するために、ガチャの種類を描画するときのフォントを指定する。イタリックは影響がないようなので？考慮しない
+		context.lineWidth = 5;
+		context.font = "bold 25px 'Kosugi Maru'";
+		const ribbonWidth = context.measureText(this.lootBoxType).width + 45; // 240
 		context.fillStyle = 'rgb(0, 0, 0, 0.3)';
 		context.beginPath();
 		context.moveTo(0, 20);
-		context.lineTo(240, 20);
-		context.lineTo(230, 45);
-		context.lineTo(240, 70);
+		context.lineTo(ribbonWidth, 20);
+		context.lineTo(ribbonWidth - 10, 45);
+		context.lineTo(ribbonWidth, 70);
 		context.lineTo(0, 70);
 		context.fill();
 		
@@ -328,9 +332,9 @@ export default class Host extends Vue {
 		}
 		context.beginPath();
 		context.moveTo(0, 15);
-		context.lineTo(240, 15);
-		context.lineTo(230, 40);
-		context.lineTo(240, 65);
+		context.lineTo(ribbonWidth, 15);
+		context.lineTo(ribbonWidth - 10, 40);
+		context.lineTo(ribbonWidth, 65);
 		context.lineTo(0, 65);
 		context.fill();
 
@@ -338,16 +342,16 @@ export default class Host extends Vue {
 		context.save();
 		context.beginPath();
 		context.moveTo(0, 15);
-		context.lineTo(240, 15);
-		context.lineTo(230, 40);
-		context.lineTo(240, 65);
+		context.lineTo(ribbonWidth, 15);
+		context.lineTo(ribbonWidth - 10, 40);
+		context.lineTo(ribbonWidth, 65);
 		context.lineTo(0, 65);
 		context.clip();
 		{
 			const rgb = this.convertHexToRgb(this.ribbonColor).map(e => 0 <= e - 10 ? e - 10 : 0);
 			context.fillStyle = `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`
 		}
-		for (let i = 0; i < 9; ++i) {
+		for (let i = 0; i < 31; ++i) {
 			context.beginPath();
 			context.moveTo(5 + i * 30, 15);
 			context.lineTo(20 + i * 30, 30);
@@ -368,9 +372,9 @@ export default class Host extends Vue {
 		context.lineWidth = 3;
 		context.beginPath();
 		context.moveTo(0, 21);
-		context.lineTo(238, 21);
+		context.lineTo(ribbonWidth - 2, 21);
 		context.moveTo(0, 59);
-		context.lineTo(238, 59);
+		context.lineTo(ribbonWidth - 2, 59);
 		context.stroke();
 
 		// ガチャの種類
@@ -383,7 +387,6 @@ export default class Host extends Vue {
 			context.fillStyle = 'white';
 			context.fillText(this.lootBoxType[i], 20 + i * 25, 28);
 		}
-
 
 		// 星
 		for (let i = 1; i <= this.star; ++i) {
