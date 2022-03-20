@@ -1,0 +1,9 @@
+version: "3.8"
+services:
+  web:
+    image: jadengygo/priconne-fresher:latest
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/home/node/app
+    tty: true
