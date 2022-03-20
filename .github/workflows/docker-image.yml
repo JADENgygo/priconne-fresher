@@ -20,15 +20,15 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - run: yarn install
-      - run: whoami
-      - run: sudo chown -R runner:docker /home/runner/work
+      # - run: whoami
+      # - run: sudo chown -R runner:docker /home/runner/work
       - run: sudo chmod -R 777 /home/runner/work/priconne-fresher/priconne-fresher
-      - run: pwd
-      - run: ls -al
-      - run: ls -al /home/runner/work/priconne-fresher
-      - run: ls -al /home/runner/work
-      - run: ls -al /home/runner
-      - run: docker-compose up
+      # - run: pwd
+      # - run: ls -al
+      # - run: ls -al /home/runner/work/priconne-fresher
+      # - run: ls -al /home/runner/work
+      # - run: ls -al /home/runner
+      - run: docker-compose up -d
       - run: |
           while [ "$(curl -I --retry-connrefused -s -o /dev/null -w '%{http_code}' localhost:3000)" != '200' ]; do
             :
