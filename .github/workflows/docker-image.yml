@@ -21,10 +21,10 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - run: yarn install
       - run: docker-compose up -d
-      - run: |
-          while [ "$(curl --retry-connrefused -s -o /dev/null -w '%{http_code}' localhost:3000)" != '200' ]; do
-            :
-          done
+      # - run: |
+      #     while [ "$(curl --retry-connrefused -s -o /dev/null -w '%{http_code}' localhost:3000)" != '200' ]; do
+      #       :
+      #     done
       - run: yarn test
       - if: success()
         run: |
