@@ -17,7 +17,8 @@ const WebFontLoader = (props: Props) => {
     let intervalId = -1;
     WebFont.load({
       google: {
-        families: ["Kosugi Maru", "Kosugi"],
+        families: ["Kosugi Maru", "Kosugi Maru:bold", "Kosugi", "Kosugi:bold"],
+        text: "aA!！あア漢",
       },
       timeout: 300000,
       loading: () => {

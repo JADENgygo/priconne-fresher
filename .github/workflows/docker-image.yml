@@ -21,11 +21,13 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - run: yarn install
       - run: docker-compose up -d
-      - run: yarn dev &
+      - run: |
+          while [ "$(curl --retry-connrefused -s -o /dev/null -w '%{http_code}' localhost:3000)" != '200' ]; do
+            :
+          done
       - run: yarn test
-      # - run: yarn test
-      # - if: success()
-      #   run: |
-      #     message=$(git log --oneline -n 1 | sed -E 's/^\S+ (.+)/\1/')
-      #     gh pr create --title "${message}" --body "自動生成プルリクエスト" --base master
-      #     gh pr merge --merge
+      - if: success()
+        run: |
+          message=$(git log --oneline -n 1 | sed -E 's/^\S+ (.+)/\1/')
+          gh pr create --title "${message}" --body "自動生成プルリクエスト" --base master
+          gh pr merge --merge

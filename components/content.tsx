@@ -573,19 +573,20 @@ export const Content = () => {
     <div>
       <Form className="mt-3">
         <Accordion>
-          <Accordion.Item eventKey="0">
+          <Accordion.Item eventKey="0" data-cy="backgroundImageList">
             <Accordion.Header>背景画像プリセット</Accordion.Header>
             <Accordion.Body>
               {/* Form.LabelにhtmlForを指定しているのでForm.GroupのcontrolIdの指定は不要 */}
               <Form.Group>
                 <div className="row gy-3 row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 row-cols-xl-6 text-center">
-                  {backGroundImageNames.map((value) => (
+                  {backGroundImageNames.map((value, index) => (
                     <div className="col" key={value}>
                       <Form.Label htmlFor={value}>
                         <Form.Check
                           type="radio"
                           name="backgroundImageName"
                           id={value}
+                          data-cy={"backgroundImageName" + index}
                           value={value}
                           onChange={(
                             event: React.ChangeEvent<HTMLInputElement>,
@@ -643,13 +644,19 @@ export const Content = () => {
           <Form.Control
             type="text"
             name="lootBoxType"
+            data-cy="lootBoxType"
             value={state.lootBoxType}
             onChange={onChange}
           />
         </Form.Group>
         <Form.Group controlId="star" className="mt-3">
           <Form.Label>星</Form.Label>
-          <Form.Select value={state.star} name="star" onChange={onChange}>
+          <Form.Select
+            value={state.star}
+            name="star"
+            data-cy="star"
+            onChange={onChange}
+          >
             {[...Array(5)].map((_, index) => (
               <option key={index} value={index}>
                 {"星" + (index + 1)}
@@ -663,6 +670,7 @@ export const Content = () => {
             <Form.Control
               type="text"
               name="characterName"
+              data-cy="characterName"
               value={state.characterName}
               onChange={onChange}
             />
@@ -672,6 +680,7 @@ export const Content = () => {
             <Form.Control
               type="text"
               name="characterStyle"
+              data-cy="characterStyle"
               value={state.characterStyle}
               onChange={onChange}
             />
@@ -682,6 +691,7 @@ export const Content = () => {
           <Form.Control
             type="text"
             name="cv"
+            data-cy="cv"
             value={state.cv}
             onChange={onChange}
           />
@@ -690,6 +700,7 @@ export const Content = () => {
           <Form.Label>ポジション</Form.Label>
           <Form.Select
             name="position"
+            data-cy="position"
             value={state.position}
             onChange={onChange}
           >
@@ -705,6 +716,7 @@ export const Content = () => {
           <Form.Control
             type="number"
             name="hp"
+            data-cy="hp"
             value={state.hp}
             onChange={onChange}
           />
@@ -715,6 +727,7 @@ export const Content = () => {
             <Form.Control
               type="number"
               name="attack"
+              data-cy="attack"
               value={state.attack}
               onChange={onChange}
             />
@@ -724,6 +737,7 @@ export const Content = () => {
             <Form.Control
               type="number"
               name="magicAttack"
+              data-cy="magicAttack"
               value={state.magicAttack}
               onChange={onChange}
             />
@@ -735,6 +749,7 @@ export const Content = () => {
             <Form.Control
               type="number"
               name="defense"
+              data-cy="defense"
               value={state.defense}
               onChange={onChange}
             />
@@ -744,6 +759,7 @@ export const Content = () => {
             <Form.Control
               type="number"
               name="magicDefense"
+              data-cy="magicDefense"
               value={state.magicDefense}
               onChange={onChange}
             />
@@ -755,6 +771,7 @@ export const Content = () => {
             <Form.Control
               type="number"
               name="rank"
+              data-cy="rank"
               value={state.rank}
               onChange={onChange}
             />
@@ -764,6 +781,7 @@ export const Content = () => {
             <Form.Control
               type="number"
               name="level"
+              data-cy="level"
               value={state.level}
               onChange={onChange}
             />
@@ -777,6 +795,7 @@ export const Content = () => {
             value={state.description}
             onChange={onChange}
             name="description"
+            data-cy="description"
           />
         </Form.Group>
         <Form.Group controlId="quote" className="mt-3">
@@ -787,6 +806,7 @@ export const Content = () => {
             value={state.quote}
             onChange={onChange}
             name="quote"
+            data-cy="quote"
           />
         </Form.Group>
         <Form.Group controlId="copyright" className="mt-3">
@@ -802,6 +822,7 @@ export const Content = () => {
             value={state.copyright}
             onChange={onChange}
             name="copyright"
+            data-cy="copyright"
           />
         </Form.Group>
         <Form.Group controlId="supplement" className="mt-3">
@@ -812,6 +833,7 @@ export const Content = () => {
             value={state.supplement}
             onChange={onChange}
             name="supplement"
+            data-cy="supplement"
           />
         </Form.Group>
         <Form.Group controlId="ribbonColor" className="mt-3">
@@ -819,6 +841,7 @@ export const Content = () => {
           <Form.Control
             type="color"
             name="ribbonColor"
+            data-cy="ribbonColor"
             value={state.ribbonColor}
             onChange={onChange}
           />
@@ -828,6 +851,7 @@ export const Content = () => {
           <Form.Control
             type="color"
             name="statusAndDescriptionColor"
+            data-cy="statusAndDescriptionColor"
             value={state.statusAndDescriptionColor}
             onChange={onChange}
           />
@@ -837,6 +861,7 @@ export const Content = () => {
           <Form.Control
             type="color"
             name="quoteColor"
+            data-cy="quoteColor"
             value={state.quoteColor}
             onChange={onChange}
           />

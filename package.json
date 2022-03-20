@@ -8,7 +8,7 @@
     "start": "next start",
     "lint:check": "prettier -c . & next lint",
     "lint:fix": "prettier -w . && next lint --fix",
-    "test": "true"
+    "test": "cypress run --browser chrome"
   },
   "dependencies": {
     "bootstrap": "^5.1.3",
