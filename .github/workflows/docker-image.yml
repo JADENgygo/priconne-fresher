@@ -21,6 +21,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - run: yarn install
       - run: docker-compose up -d
+      - run: yarn dev &
       - run: yarn test
       # - run: yarn test
       # - if: success()
