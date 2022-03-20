@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+    branches: [dev]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      # gh
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+      - uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - run: yarn install
+      - run: docker-compose up -d
+      - run: yarn test
+      # - run: yarn test
+      # - if: success()
+      #   run: |
+      #     message=$(git log --oneline -n 1 | sed -E 's/^\S+ (.+)/\1/')
+      #     gh pr create --title "${message}" --body "自動生成プルリクエスト" --base master
+      #     gh pr merge --merge

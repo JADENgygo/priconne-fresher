@@ -10,7 +10,6 @@ class MyDocument extends Document {
             name="description"
             content="プリコネRのガチャ告知画像の作成ツール"
           />
-          <meta name="viewport" content="width=device-width,initial-scale=1" />
           <meta name="twitter:card" content="summary" />
           <meta name="twitter:site" content="@JADENgygo" />
           <meta
@@ -35,7 +34,6 @@ class MyDocument extends Document {
             href="https://fonts.googleapis.com/css2?family=Kosugi&display=swap"
             rel="stylesheet"
           />
-          <title>プリコネフレッシャー</title>
         </Head>
         <body>
           <Main />

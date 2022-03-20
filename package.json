@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint:check": "prettier -c . & next lint",
-    "lint:fix": "prettier -w . && next lint --fix"
+    "lint:fix": "prettier -w . && next lint --fix",
+    "test": "true"
   },
   "dependencies": {
     "bootstrap": "^5.1.3",
