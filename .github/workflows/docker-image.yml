@@ -20,7 +20,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - run: yarn install
-      # - run: sudo chown runner:docker /home/runner/work
+      - run: sudo chown runner:docker /home/runner/work
       - run: pwd
       - run: ls -al
       - run: ls -al /home/runner/work/priconne-fresher
