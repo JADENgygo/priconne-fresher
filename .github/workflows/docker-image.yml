@@ -20,14 +20,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - run: yarn install
-      # - run: whoami
-      # - run: sudo chown -R runner:docker /home/runner/work
       - run: sudo chmod -R 777 /home/runner/work/priconne-fresher/priconne-fresher
-      # - run: pwd
-      # - run: ls -al
-      # - run: ls -al /home/runner/work/priconne-fresher
-      # - run: ls -al /home/runner/work
-      # - run: ls -al /home/runner
       - run: docker-compose up -d
       - run: |
           while [ "$(curl -I --retry-connrefused -s -o /dev/null -w '%{http_code}' localhost:3000)" != '200' ]; do
@@ -39,3 +32,8 @@ jobs:
           message=$(git log --oneline -n 1 | sed -E 's/^\S+ (.+)/\1/')
           gh pr create --title "${message}" --body "自動生成プルリクエスト" --base main
           gh pr merge --merge
+      - if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          path: cypress
+
