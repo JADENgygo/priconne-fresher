@@ -22,14 +22,14 @@ export default function Document() {
           content="https://priconne-fresher.vercel.app/img/peko.png"
         />
         <link rel="icon" href="/img/peko.png" />
-        <link
+        {/* <link
           href="https://fonts.googleapis.com/css2?family=Kosugi+Maru&display=swap"
           rel="stylesheet"
         />
         <link
           href="https://fonts.googleapis.com/css2?family=Kosugi&display=swap"
           rel="stylesheet"
-        />
+        /> */}
       </Head>
       <body>
         <Main />
