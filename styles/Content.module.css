@@ -7,3 +7,13 @@
     width: 100%;
   }
 }
+
+@font-face {
+  font-family: "Kosugi Maru";
+  src: url("/font/KosugiMaru-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Kosugi";
+  src: url("/font/Kosugi-Regular.ttf") format("truetype");
+}

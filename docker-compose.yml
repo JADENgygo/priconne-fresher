@@ -2,6 +2,8 @@ version: "3.8"
 services:
   web:
     image: jadengygo/priconne-fresher:latest
+    build:
+      context: .
     ports:
       - 3000:3000
     volumes:
