@@ -19,14 +19,14 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - run: yarn install
+      - run: npm install
       - run: sudo chmod -R 777 /home/runner/work/priconne-fresher/priconne-fresher
       - run: docker-compose up -d
       - run: |
           while [ "$(curl -I --retry-connrefused -s -o /dev/null -w '%{http_code}' localhost:3000)" != '200' ]; do
             :
           done
-      - run: yarn test
+      - run: npm test
       - if: success()
         run: |
           message=$(git log --oneline -n 1 | sed -E 's/^\S+ (.+)/\1/')

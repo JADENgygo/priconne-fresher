@@ -636,7 +636,7 @@ export const Content = () => {
             accept=".jpg,.jpeg,.png,.webp"
           />
         </Form.Group>
-        <div className="alert alert-dark mt-3">
+        <div className="alert alert-info mt-3 keep">
           画像は推奨サイズ(900×500)にトリミングされます
         </div>
         <Form.Group controlId="lootBoxId">
@@ -866,15 +866,16 @@ export const Content = () => {
             onChange={onChange}
           />
         </Form.Group>
+        <hr />
         <button
           type="button"
-          className="btn btn-dark mt-3 d-block"
+          className="btn btn-outline-dark mt-3 d-block"
           onClick={saveImage}
         >
           画像を保存
         </button>
       </Form>
-      <div className="alert alert-dark mt-3">
+      <div className="alert alert-info mt-3 keep">
         ボタンが動作しない時はプレビューを保存するか別ブラウザを使用してください
       </div>
       <div className="uk-form-label">プレビュー</div>
