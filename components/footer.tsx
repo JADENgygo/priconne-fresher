@@ -1,7 +1,7 @@
-export const Footer = (props: { className?: string }) => {
+export const Footer = () => {
   return (
-    <div
-      className={`bg-secondary bg-opacity-10 text-center pt-3 pb-3 ${props.className}`}
+    <footer
+      className="text-center pt-3 pb-3"
     >
       <div className="container">
         <a href="https://twitter.com/JADENgygo" className={`link-dark link`}>
@@ -15,6 +15,6 @@ export const Footer = (props: { className?: string }) => {
         </a>
       </div>
       <div>画像 &copy; 暁なつめ・三嶋くろね / Cygames, Inc.</div>
-    </div>
+    </footer>
   );
 };
