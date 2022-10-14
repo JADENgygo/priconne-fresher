@@ -4,12 +4,12 @@ export const Footer = () => {
       className="text-center pt-3 pb-3"
     >
       <div className="container">
-        <a href="https://twitter.com/JADENgygo" className={`link-dark link`}>
+        <a href="https://twitter.com/JADENgygo">
           <i className="bi bi-twitter"></i>
         </a>
         <a
           href="https://priconne-portfolio.vercel.app"
-          className={`ms-3 link-dark link`}
+          className="ms-3 link"
         >
           闇プリン開発室
         </a>

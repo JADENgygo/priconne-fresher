@@ -869,7 +869,7 @@ export const Content = () => {
         <hr />
         <button
           type="button"
-          className="btn btn-outline-dark mt-3 d-block"
+          className="btn btn-primary mt-3 d-block"
           onClick={saveImage}
         >
           画像を保存
